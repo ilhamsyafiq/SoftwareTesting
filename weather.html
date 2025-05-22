@@ -4,47 +4,188 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Weather Dashboard</title>
+
+  <!-- Tailwind CSS CDN (you can keep it or replace with your own CSS if you want) -->
   <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
   <style>
-    /* Custom styles for the input and chart */
+    /* Updated color scheme based on portfolio example */
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background-color: #f8f9fa; /* light gray */
+      color: #212529; /* dark gray */
+      min-height: 100vh;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Navbar */
+    nav {
+      background-color: #1a237e; /* navy blue */
+      color: white;
+      padding: 1rem 2rem;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    nav .container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav .title {
+      font-weight: 700;
+      font-size: 1.5rem;
+    }
+    nav a {
+      color: white;
+      margin-left: 1.5rem;
+      font-weight: 600;
+      text-decoration: none;
+      border-right: 1px solid #3949ab;
+      padding-right: 1rem;
+      transition: background-color 0.3s ease;
+    }
+    nav a:last-child {
+      border-right: none;
+      margin-right: 0;
+    }
+    nav a:hover {
+      background-color: #3949ab; /* lighter navy */
+      color: #ffca28; /* gold/yellow */
+    }
+
+    /* Main */
+    main.container {
+      margin: 3rem auto;
+      padding: 0 1rem;
+      max-width: 960px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-weight: 900;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      color: #1a237e;
+    }
+
+    /* Input and Button */
     #city {
-      width: 100%;
-      max-width: 300px;
-      border-radius: 0.375rem; /* rounded */
-      border: 1px solid #d1d5db; /* gray-300 */
+      width: 300px;
+      padding: 0.5rem 1rem;
+      border: 1px solid #3949ab;
+      border-radius: 0.375rem;
       transition: border-color 0.3s ease;
+      font-size: 1rem;
+      color: #212529;
     }
     #city:focus {
       outline: none;
-      border-color: #3b82f6; /* blue-500 */
-      box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+      border-color: #ffca28;
+      box-shadow: 0 0 8px rgba(255, 202, 40, 0.7);
     }
+    button {
+      background-color: #3949ab;
+      color: #ffca28;
+      border: none;
+      padding: 0.6rem 1.5rem;
+      font-weight: 700;
+      border-radius: 0.375rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      margin-left: 1rem;
+    }
+    button:hover {
+      background-color: #1a237e;
+      color: #fff;
+    }
+
+    #loading {
+      color: #1a237e;
+      font-weight: 600;
+      margin-left: 1rem;
+      display: none;
+    }
+
+    /* Weather display card */
+    .weather-card {
+      background: white;
+      border-radius: 0.75rem;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+      padding: 2rem;
+      margin-top: 2rem;
+      width: 100%;
+      max-width: 960px;
+      color: #212529;
+    }
+
+    #currentWeather {
+      display: flex;
+      align-items: center;
+      margin-bottom: 2rem;
+      gap: 1.5rem;
+      color: #1a237e;
+    }
+    #weatherIcon {
+      width: 80px;
+      height: 80px;
+    }
+    #weatherDesc {
+      font-size: 1.5rem;
+      font-weight: 700;
+      text-transform: capitalize;
+    }
+    #weatherTemp {
+      font-size: 1.25rem;
+      margin-top: 0.25rem;
+    }
+    #weatherHumidity,
+    #weatherWind {
+      font-size: 1rem;
+      color: #555;
+    }
+
+    /* Chart */
     #weatherChart {
       max-width: 100%;
-      height: 400px !important; /* fixed height for better chart display */
+      height: 400px !important;
     }
   </style>
 </head>
-<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+<body>
 
-  <nav class="bg-blue-600 text-white p-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="text-xl font-bold">Weather Dashboard</div>
+  <nav>
+    <div class="container">
+      <div class="title">Weather Dashboard</div>
       <div>
-        <a href="index.html" class="mx-3 hover:text-green-300 transition">Home</a>
-        <a href="crypto.html" class="mx-3 hover:text-green-300 transition">Crypto</a>
+        <a href="index.html">Home</a>
+        <a href="crypto.html">Crypto</a>
       </div>
     </div>
   </nav>
 
-  <main class="container mx-auto mt-10 px-4 flex flex-col items-center">
-    <h1 class="text-3xl font-bold mb-6">Weather Monitoring</h1>
+  <main class="container">
+    <h1>Weather Monitoring</h1>
     <div class="flex items-center mb-6 space-x-3">
       <input id="city" type="text" placeholder="Enter city name" />
-      <button onclick="fetchWeather()" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded transition">Search</button>
+      <button onclick="fetchWeather()">Search</button>
+      <div id="loading">Loading...</div>
     </div>
-    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl">
+
+    <div class="weather-card">
+      <div id="currentWeather" class="hidden">
+        <img id="weatherIcon" alt="Weather Icon" />
+        <div>
+          <h2 id="weatherDesc"></h2>
+          <p id="weatherTemp"></p>
+          <p id="weatherHumidity"></p>
+          <p id="weatherWind"></p>
+        </div>
+      </div>
       <canvas id="weatherChart"></canvas>
     </div>
   </main>
@@ -58,19 +199,31 @@
         alert('Please enter a city name');
         return;
       }
-      const apiKey = '9d6265408c215c301aba4987a6bd1ba3'; // <-- Replace this with your API key
+      document.getElementById('loading').style.display = 'inline';
+      document.getElementById('currentWeather').style.display = 'none';
+
+      const apiKey = '9d6265408c215c301aba4987a6bd1ba3'; // Replace with your own key
       try {
         const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`);
-        if (!res.ok) {
-          throw new Error('City not found');
-        }
+        if (!res.ok) throw new Error('City not found');
         const data = await res.json();
+
+        // Show current weather from first forecast item
+        const current = data.list[0];
+        const iconUrl = `https://openweathermap.org/img/wn/${current.weather[0].icon}@2x.png`;
+        document.getElementById('weatherIcon').src = iconUrl;
+        document.getElementById('weatherDesc').textContent = current.weather[0].description;
+        document.getElementById('weatherTemp').textContent = `Temp: ${current.main.temp} °C`;
+        document.getElementById('weatherHumidity').textContent = `Humidity: ${current.main.humidity}%`;
+        document.getElementById('weatherWind').textContent = `Wind Speed: ${current.wind.speed} m/s`;
+        document.getElementById('currentWeather').style.display = 'flex';
+
+        // Prepare chart data
         const labels = data.list.map(x => x.dt_txt);
         const temps = data.list.map(x => x.main.temp);
 
         const ctx = document.getElementById('weatherChart').getContext('2d');
 
-        // If chart already exists, destroy it before creating new one
         if (weatherChart) {
           weatherChart.destroy();
         }
@@ -82,8 +235,8 @@
             datasets: [{
               label: `Temperature (°C) in ${data.city.name}`,
               data: temps,
-              borderColor: 'rgba(59, 130, 246, 1)',
-              backgroundColor: 'rgba(59, 130, 246, 0.2)',
+              borderColor: '#1a237e', // navy blue line
+              backgroundColor: 'rgba(26, 35, 126, 0.2)', // transparent navy fill
               fill: true,
               tension: 0.3,
               pointRadius: 3
@@ -98,35 +251,44 @@
                 ticks: {
                   maxRotation: 45,
                   minRotation: 45,
-                  maxTicksLimit: 10
+                  maxTicksLimit: 10,
+                  color: '#212529'
+                },
+                grid: {
+                  color: '#e0e0e0'
                 }
               },
               y: {
                 beginAtZero: false,
                 title: {
                   display: true,
-                  text: 'Temperature (°C)'
+                  text: 'Temperature (°C)',
+                  color: '#212529',
+                  font: { weight: '700' }
+                },
+                ticks: {
+                  color: '#212529'
+                },
+                grid: {
+                  color: '#e0e0e0'
                 }
               }
             },
             plugins: {
               legend: {
-                display: true,
-                position: 'top',
-              },
-              tooltip: {
-                mode: 'index',
-                intersect: false,
+                labels: {
+                  color: '#1a237e',
+                  font: { weight: '700' }
+                }
               }
-            },
-            interaction: {
-              mode: 'nearest',
-              intersect: false
             }
           }
         });
-      } catch (error) {
-        alert('Error fetching weather data: ' + error.message);
+
+      } catch (err) {
+        alert(err.message);
+      } finally {
+        document.getElementById('loading').style.display = 'none';
       }
     }
   </script>
