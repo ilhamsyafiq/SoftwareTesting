@@ -2,29 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Crypto Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-</head>
-<body class="bg-gray-100 text-gray-900">
 
-  <nav class="bg-blue-600 text-white p-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-      <div class="text-xl font-bold">Crypto Dashboard</div>
-      <div>
-        <a href="index.html" class="mx-3 hover:text-green-400 transition">Home</a>
-        <a href="weather.html" class="mx-3 hover:text-green-400 transition">Weather</a>
+  <!-- External Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@400;700;800&display=swap" rel="stylesheet">
+
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <style>
+    body {
+      font-family: 'Raleway', sans-serif;
+      background-color: #f8f9fa;
+      color: #212529;
+      margin: 0;
+    }
+
+    /* Navbar */
+    .navbar-custom {
+      background-color: #1a237e;
+      font-weight: 600;
+    }
+    .navbar-custom a {
+      color: #fff !important;
+      margin-right: 20px;
+    }
+    .navbar-custom a:hover {
+      color: #ffca28 !important;
+    }
+
+    /* Heading */
+    .page-title {
+      font-weight: 800;
+      color: #1a237e;
+      text-align: center;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+
+    /* Currency Dropdown */
+    .currency-selector {
+      text-align: right;
+      margin-bottom: 20px;
+    }
+
+    label {
+      font-weight: 600;
+    }
+
+    /* Chart Container */
+    .chart-container {
+      background: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 3px 20px rgba(0, 0, 0, 0.1);
+      height: 500px;
+    }
+
+    /* Responsive Fixes */
+    @media (max-width: 768px) {
+      .currency-selector {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-custom p-3">
+    <div class="container">
+      <a class="navbar-brand font-weight-bold" href="#">Crypto Dashboard</a>
+      <div class="ml-auto">
+        <a href="index.html" class="nav-link d-inline">Home</a>
+        <a href="weather.html" class="nav-link d-inline">Weather</a>
       </div>
     </div>
   </nav>
 
-  <main class="container mx-auto mt-10 px-4 max-w-4xl">
-    <h1 class="text-3xl font-bold mb-6 text-center">Cryptocurrency Market Insights</h1>
+  <!-- Main Content -->
+  <div class="container mt-5">
+    <h1 class="page-title">Cryptocurrency Market Insights</h1>
 
-    <div class="mb-4 flex justify-end items-center">
-      <label for="currency" class="mr-2 font-semibold">Currency:</label>
-      <select id="currency" class="p-2 border rounded">
+    <div class="currency-selector mb-3">
+      <label for="currency">Currency:</label>
+      <select id="currency" class="form-control d-inline-block w-auto ml-2">
         <option value="usd">USD</option>
         <option value="eur">EUR</option>
         <option value="myr">MYR</option>
@@ -33,94 +99,93 @@
       </select>
     </div>
 
-    <div class="bg-white p-6 rounded-lg shadow-lg h-[500px]">
-      <canvas id="cryptoChart" class="w-full h-full"></canvas>
+    <div class="chart-container">
+      <canvas id="cryptoChart" class="w-100 h-100"></canvas>
     </div>
-  </main>
+  </div>
 
- <script>
-  let chart;
-  let currentCurrency = 'usd';
+  <!-- JavaScript -->
+  <script>
+    let chart;
+    let currentCurrency = 'usd';
 
-  // Currency symbol map
-  const currencySymbols = {
-    usd: '$',
-    eur: '€',
-    myr: 'RM',
-    gbp: '£',
-    jpy: '¥'
-  };
+    const currencySymbols = {
+      usd: '$',
+      eur: '€',
+      myr: 'RM',
+      gbp: '£',
+      jpy: '¥'
+    };
 
-  async function fetchCrypto(currency = 'usd') {
-    currentCurrency = currency;
-    const symbol = currencySymbols[currency] || currency.toUpperCase();
+    async function fetchCrypto(currency = 'usd') {
+      currentCurrency = currency;
+      const symbol = currencySymbols[currency] || currency.toUpperCase();
 
-    try {
-      const res = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`);
-      const data = await res.json();
+      try {
+        const res = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`);
+        const data = await res.json();
 
-      const topCoins = data.slice(0, 10);
-      const labels = topCoins.map(x => x.name);
-      const prices = topCoins.map(x => x.current_price);
+        const topCoins = data.slice(0, 10);
+        const labels = topCoins.map(x => x.name);
+        const prices = topCoins.map(x => x.current_price);
 
-      const ctx = document.getElementById('cryptoChart').getContext('2d');
+        const ctx = document.getElementById('cryptoChart').getContext('2d');
 
-      if (chart) chart.destroy(); // Destroy previous chart
+        if (chart) chart.destroy();
 
-      chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels,
-          datasets: [{
-            label: `Price (${currency.toUpperCase()})`,
-            data: prices,
-            backgroundColor: 'rgba(16, 185, 129, 0.6)',
-            borderColor: 'rgba(16, 185, 129, 1)',
-            borderWidth: 1
-          }]
-        },
-        options: {
-          responsive: true,
-          maintainAspectRatio: false,
-          scales: {
-            y: {
-              type: 'logarithmic',
-              beginAtZero: false,
-              title: {
-                display: true,
-                text: `Price (${currency.toUpperCase()})`
-              },
-              ticks: {
-                callback: function (value) {
-                  return symbol + value.toLocaleString();
+        chart = new Chart(ctx, {
+          type: 'bar',
+          data: {
+            labels,
+            datasets: [{
+              label: `Price (${currency.toUpperCase()})`,
+              data: prices,
+              backgroundColor: 'rgba(255, 202, 40, 0.7)',
+              borderColor: 'rgba(255, 202, 40, 1)',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              y: {
+                type: 'logarithmic',
+                beginAtZero: false,
+                title: {
+                  display: true,
+                  text: `Price (${currency.toUpperCase()})`
+                },
+                ticks: {
+                  callback: function (value) {
+                    return symbol + value.toLocaleString();
+                  }
                 }
               }
-            }
-          },
-          plugins: {
-            tooltip: {
-              callbacks: {
-                label: function (context) {
-                  return `${context.label}: ${symbol}${context.parsed.y.toLocaleString()}`;
+            },
+            plugins: {
+              tooltip: {
+                callbacks: {
+                  label: function (context) {
+                    return `${context.label}: ${symbol}${context.parsed.y.toLocaleString()}`;
+                  }
                 }
               }
             }
           }
-        }
-      });
-
-    } catch (error) {
-      console.error('Error fetching crypto data:', error);
+        });
+      } catch (error) {
+        console.error('Error fetching crypto data:', error);
+      }
     }
-  }
 
-  // Initial load
-  fetchCrypto();
+    // Initial Load
+    fetchCrypto();
 
-  // Dropdown listener
-  document.getElementById('currency').addEventListener('change', function () {
-    fetchCrypto(this.value);
-  });
-</script>
+    // Dropdown Listener
+    document.getElementById('currency').addEventListener('change', function () {
+      fetchCrypto(this.value);
+    });
+  </script>
 </body>
 </html>
