@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Weather Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <nav class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex justify-between">
+      <div class="text-xl font-bold">Weather Dashboard</div>
+      <div>
+        <a href="index.html" class="mx-2">Home</a>
+        <a href="crypto.html" class="mx-2">Crypto</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto mt-8">
+    <h1 class="text-2xl font-bold mb-4">Weather Monitoring</h1>
+    <input id="city" class="p-2 border mb-4" placeholder="Enter city name" />
+    <button onclick="fetchWeather()" class="bg-blue-500 text-white px-4 py-2">Search</button>
+    <canvas id="weatherChart" class="mt-8"></canvas>
+  </main>
+
+  <script>
+    async function fetchWeather() {
+      const city = document.getElementById('city').value;
+      const apiKey = 'YOUR_OPENWEATHER_API_KEY';
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`);
+      const data = await res.json();
+      const labels = data.list.map(x => x.dt_txt);
+      const temps = data.list.map(x => x.main.temp);
+      const ctx = document.getElementById('weatherChart').getContext('2d');
+      new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels,
+          datasets: [{
+            label: 'Temperature (°C)',
+            data: temps,
+            borderColor: 'rgba(59, 130, 246, 1)',
+            backgroundColor: 'rgba(59, 130, 246, 0.2)'
+          }]
+        }
+      });
+    }
+  </script>
+</body>
+</html>
