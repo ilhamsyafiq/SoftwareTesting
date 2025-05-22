@@ -2,50 +2,132 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Weather Dashboard</title>
-  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    /* Custom styles for the input and chart */
+    #city {
+      width: 100%;
+      max-width: 300px;
+      border-radius: 0.375rem; /* rounded */
+      border: 1px solid #d1d5db; /* gray-300 */
+      transition: border-color 0.3s ease;
+    }
+    #city:focus {
+      outline: none;
+      border-color: #3b82f6; /* blue-500 */
+      box-shadow: 0 0 5px rgba(59, 130, 246, 0.5);
+    }
+    #weatherChart {
+      max-width: 100%;
+      height: 400px !important; /* fixed height for better chart display */
+    }
+  </style>
 </head>
-<body class="bg-gray-100 text-gray-900">
-  <nav class="bg-blue-600 text-white p-4">
-    <div class="container mx-auto flex justify-between">
+<body class="bg-gray-100 text-gray-900 min-h-screen flex flex-col">
+
+  <nav class="bg-blue-600 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
       <div class="text-xl font-bold">Weather Dashboard</div>
       <div>
-        <a href="index.html" class="mx-2">Home</a>
-        <a href="crypto.html" class="mx-2">Crypto</a>
+        <a href="index.html" class="mx-3 hover:text-green-300 transition">Home</a>
+        <a href="crypto.html" class="mx-3 hover:text-green-300 transition">Crypto</a>
       </div>
     </div>
   </nav>
 
-  <main class="container mx-auto mt-8">
-    <h1 class="text-2xl font-bold mb-4">Weather Monitoring</h1>
-    <input id="city" class="p-2 border mb-4" placeholder="Enter city name" />
-    <button onclick="fetchWeather()" class="bg-blue-500 text-white px-4 py-2">Search</button>
-    <canvas id="weatherChart" class="mt-8"></canvas>
+  <main class="container mx-auto mt-10 px-4 flex flex-col items-center">
+    <h1 class="text-3xl font-bold mb-6">Weather Monitoring</h1>
+    <div class="flex items-center mb-6 space-x-3">
+      <input id="city" type="text" placeholder="Enter city name" />
+      <button onclick="fetchWeather()" class="bg-blue-500 hover:bg-blue-600 text-white px-5 py-2 rounded transition">Search</button>
+    </div>
+    <div class="bg-white rounded-lg shadow-lg p-6 w-full max-w-4xl">
+      <canvas id="weatherChart"></canvas>
+    </div>
   </main>
 
   <script>
+    let weatherChart = null;
+
     async function fetchWeather() {
-      const city = document.getElementById('city').value;
-      const apiKey = 'YOUR_OPENWEATHER_API_KEY';
-      const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${city}&units=metric&appid=${apiKey}`);
-      const data = await res.json();
-      const labels = data.list.map(x => x.dt_txt);
-      const temps = data.list.map(x => x.main.temp);
-      const ctx = document.getElementById('weatherChart').getContext('2d');
-      new Chart(ctx, {
-        type: 'line',
-        data: {
-          labels,
-          datasets: [{
-            label: 'Temperature (°C)',
-            data: temps,
-            borderColor: 'rgba(59, 130, 246, 1)',
-            backgroundColor: 'rgba(59, 130, 246, 0.2)'
-          }]
+      const city = document.getElementById('city').value.trim();
+      if (!city) {
+        alert('Please enter a city name');
+        return;
+      }
+      const apiKey = '9d6265408c215c301aba4987a6bd1ba3'; // <-- Replace this with your API key
+      try {
+        const res = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&units=metric&appid=${apiKey}`);
+        if (!res.ok) {
+          throw new Error('City not found');
         }
-      });
+        const data = await res.json();
+        const labels = data.list.map(x => x.dt_txt);
+        const temps = data.list.map(x => x.main.temp);
+
+        const ctx = document.getElementById('weatherChart').getContext('2d');
+
+        // If chart already exists, destroy it before creating new one
+        if (weatherChart) {
+          weatherChart.destroy();
+        }
+
+        weatherChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [{
+              label: `Temperature (°C) in ${data.city.name}`,
+              data: temps,
+              borderColor: 'rgba(59, 130, 246, 1)',
+              backgroundColor: 'rgba(59, 130, 246, 0.2)',
+              fill: true,
+              tension: 0.3,
+              pointRadius: 3
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+              x: {
+                display: true,
+                ticks: {
+                  maxRotation: 45,
+                  minRotation: 45,
+                  maxTicksLimit: 10
+                }
+              },
+              y: {
+                beginAtZero: false,
+                title: {
+                  display: true,
+                  text: 'Temperature (°C)'
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: true,
+                position: 'top',
+              },
+              tooltip: {
+                mode: 'index',
+                intersect: false,
+              }
+            },
+            interaction: {
+              mode: 'nearest',
+              intersect: false
+            }
+          }
+        });
+      } catch (error) {
+        alert('Error fetching weather data: ' + error.message);
+      }
     }
   </script>
 </body>
