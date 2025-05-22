@@ -338,6 +338,43 @@
             border-top: 1px solid #ccc;
             margin: 15px 0 10px;
         }
+        .profile-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 40px;
+}
+
+.profile-img {
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  transition: transform 0.3s ease;
+}
+
+.profile-img:hover {
+  transform: scale(1.05);
+}
+
+.profile-text {
+  max-width: 600px;
+}
+
+@media (max-width: 768px) {
+  .profile-wrapper {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .profile-text {
+    max-width: 100%;
+  }
+}
+
     </style>
 
 </head>
@@ -370,7 +407,16 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                 <img src="images/am.jpg" alt="Ilham Syafiq" style="width: 200px; height: 200px; border-radius: 50%; object-fit: cover; margin-bottom: 20px;">
+               <div class="profile-wrapper d-flex flex-wrap align-items-center">
+  <img src="images/am.jpg" alt="Ilham Syafiq" class="profile-img">
+  <div class="profile-text">
+    <h1>Ilham Syafiq</h1>
+    <h2 class="rotate">WEB DEVELOPER | UI/UX DESIGNER</h2>
+    <h3>Welcome To My Personal Portfolio</h3>
+    <p>I am a dedicated developer and designer committed to creating sleek and professional websites and applications.</p>
+    <a href="#work" class="btn btn-default smoothScroll">View Work</a>
+  </div>
+</div>
                     <h1>Ilham Syafiq</h1>
                     <h2 class="rotate">WEB DEVELOPER | UI/UX DESIGNER</h2>
                     <h3>Welcome To My Personal Portfolio</h3>
