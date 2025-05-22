@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Web Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="bg-gray-100 text-gray-900">
+  <nav class="bg-blue-600 text-white p-4">
+    <div class="container mx-auto flex justify-between">
+      <div class="text-xl font-bold">My Web Dashboard</div>
+      <div>
+        <a href="index.html" class="mx-2">Home</a>
+        <a href="weather.html" class="mx-2">Weather</a>
+        <a href="crypto.html" class="mx-2">Crypto</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container mx-auto mt-8">
+    <h1 class="text-3xl font-bold mb-4">About Me</h1>
+    <p class="mb-4">Hi, I'm [Your Name], a student passionate about web development and data visualization. This website features two dashboards: Weather Monitoring and Cryptocurrency Market Insights.</p>
+    <ul class="list-disc pl-6">
+      <li>Responsive design using Tailwind CSS</li>
+      <li>Real-time data from public APIs</li>
+      <li>Deployed via GitHub Pages</li>
+    </ul>
+  </main>
+</body>
+</html>
