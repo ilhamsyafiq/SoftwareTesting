@@ -167,7 +167,8 @@
   <main class="container">
     <h1>Weather Monitoring</h1>
     <div class="flex items-center mb-6 space-x-3">
-      <input id="city" type="text" placeholder="Enter city name" />
+      <!-- Set default city value to Kuala Lumpur -->
+      <input id="city" type="text" placeholder="Enter city name" value="Kuala Lumpur" />
       <button onclick="fetchWeather()">Search</button>
       <div id="loading">Loading...</div>
     </div>
@@ -198,12 +199,17 @@
     let weatherChart = null;
     let fullForecastData = [];
 
-    async function fetchWeather() {
-      const city = document.getElementById('city').value.trim();
+    async function fetchWeather(cityParam) {
+      const cityInput = document.getElementById('city');
+      const city = cityParam || cityInput.value.trim();
+
       if (!city) {
         alert('Please enter a city name');
         return;
       }
+
+      cityInput.value = city;  // update input if cityParam passed
+
       document.getElementById('loading').style.display = 'inline';
       document.getElementById('currentWeather').style.display = 'none';
       document.getElementById('filterContainer').classList.add('hidden');
@@ -310,6 +316,11 @@
         }
       });
     }
+
+    // Load Kuala Lumpur weather on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      fetchWeather('Kuala Lumpur');
+    });
   </script>
 </body>
 </html>
