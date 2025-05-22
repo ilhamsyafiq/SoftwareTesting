@@ -38,76 +38,89 @@
     </div>
   </main>
 
-  <script>
-    let chart;
+ <script>
+  let chart;
+  let currentCurrency = 'usd';
 
-    async function fetchCrypto(currency = 'usd') {
-      try {
-        const res = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`);
-        const data = await res.json();
+  // Currency symbol map
+  const currencySymbols = {
+    usd: '$',
+    eur: '€',
+    myr: 'RM',
+    gbp: '£',
+    jpy: '¥'
+  };
 
-        const topCoins = data.slice(0, 10);
-        const labels = topCoins.map(x => x.name);
-        const prices = topCoins.map(x => x.current_price);
+  async function fetchCrypto(currency = 'usd') {
+    currentCurrency = currency;
+    const symbol = currencySymbols[currency] || currency.toUpperCase();
 
-        const ctx = document.getElementById('cryptoChart').getContext('2d');
+    try {
+      const res = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`);
+      const data = await res.json();
 
-        if (chart) chart.destroy(); // destroy previous chart if exists
+      const topCoins = data.slice(0, 10);
+      const labels = topCoins.map(x => x.name);
+      const prices = topCoins.map(x => x.current_price);
 
-        chart = new Chart(ctx, {
-          type: 'bar',
-          data: {
-            labels,
-            datasets: [{
-              label: `Price (${currency.toUpperCase()})`,
-              data: prices,
-              backgroundColor: 'rgba(16, 185, 129, 0.6)',
-              borderColor: 'rgba(16, 185, 129, 1)',
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-              y: {
-                type: 'logarithmic', // makes all bars more visible
-                beginAtZero: false,
-                title: {
-                  display: true,
-                  text: `Price (${currency.toUpperCase()})`
-                },
-                ticks: {
-                  callback: function(value) {
-                    return value >= 1 ? `$${value}` : `$${value.toFixed(4)}`;
-                  }
+      const ctx = document.getElementById('cryptoChart').getContext('2d');
+
+      if (chart) chart.destroy(); // Destroy previous chart
+
+      chart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [{
+            label: `Price (${currency.toUpperCase()})`,
+            data: prices,
+            backgroundColor: 'rgba(16, 185, 129, 0.6)',
+            borderColor: 'rgba(16, 185, 129, 1)',
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              type: 'logarithmic',
+              beginAtZero: false,
+              title: {
+                display: true,
+                text: `Price (${currency.toUpperCase()})`
+              },
+              ticks: {
+                callback: function (value) {
+                  return symbol + value.toLocaleString();
                 }
               }
-            },
-            plugins: {
-              tooltip: {
-                callbacks: {
-                  label: function(context) {
-                    return `${context.label}: ${currency.toUpperCase()} ${context.parsed.y}`;
-                  }
+            }
+          },
+          plugins: {
+            tooltip: {
+              callbacks: {
+                label: function (context) {
+                  return `${context.label}: ${symbol}${context.parsed.y.toLocaleString()}`;
                 }
               }
             }
           }
-        });
-      } catch (error) {
-        console.error('Error fetching crypto data:', error);
-      }
+        }
+      });
+
+    } catch (error) {
+      console.error('Error fetching crypto data:', error);
     }
+  }
 
-    // Initial load
-    fetchCrypto('usd');
+  // Initial load
+  fetchCrypto();
 
-    // Update chart when dropdown changes
-    document.getElementById('currency').addEventListener('change', function () {
-      const selectedCurrency = this.value;
-      fetchCrypto(selectedCurrency);
-    });
-  </script>
+  // Dropdown listener
+  document.getElementById('currency').addEventListener('change', function () {
+    fetchCrypto(this.value);
+  });
+</script>
 </body>
 </html>
