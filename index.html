@@ -1,261 +1,478 @@
 <!DOCTYPE html>
 <html lang="en">
-	<head>
-		<meta charset="utf-8">
+<head>
+    <meta charset="utf-8">
 
-		<title>Personal Portfolio Website</title>
-		<meta name="keywords" content="">
-		<meta name="description" content="">
-                 <meta name="author" content="templatemo">
-                <meta http-equiv="X-UA-Compatible" content="IE=Edge">
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Personal Portfolio Website</title>
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="author" content="templatemo">
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link rel="stylesheet" href="css/animate.min.css">
-		<link rel="stylesheet" href="css/bootstrap.min.css">
-		<link rel="stylesheet" href="css/font-awesome.min.css">
-		<link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700,800' rel='stylesheet' type='text/css'>
-		<link rel="stylesheet" href="css/jquery.fullPage.css">
-		<link rel="stylesheet" href="css/templatemo-style.css">
-                <link rel="stylesheet" href="css/nav.css">
-                <link rel="stylesheet" href="css/star.css">
-                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/animate.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/font-awesome.min.css">
+    <link href='http://fonts.googleapis.com/css?family=Raleway:400,300,700,800' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="css/jquery.fullPage.css">
+    <link rel="stylesheet" href="css/templatemo-style.css">
+    <link rel="stylesheet" href="css/nav.css">
+    <link rel="stylesheet" href="css/star.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    <style>
+        /* Professional color scheme and layout */
+        body {
+            font-family: 'Raleway', sans-serif;
+            background-color: #f8f9fa;
+            color: #212529;
+            margin: 0;
+            line-height: 1.6;
+        }
 
-<div class="navbar">
-    
-  <a href="#" class="active">Home</a>
-  <a href="weather.html">Weather Forecasting</a>
-  <a href="crypto.html">Crypto Market</a>
-   <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
-    <i class="fa fa-bars"></i>
-  </a>
+        /* Navbar */
+        .navbar {
+            background-color: #1a237e; /* navy blue */
+            overflow: hidden;
+            font-weight: 600;
+        }
+        .navbar a {
+            float: left;
+            display: block;
+            color: #ffffff;
+            text-align: center;
+            padding: 14px 20px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            border-right: 1px solid #3949ab;
+        }
+        .navbar a:last-child {
+            border-right: none;
+        }
+        .navbar a:hover, .navbar a.active {
+            background-color: #3949ab;
+            color: #fff;
+        }
+        .navbar .icon {
+            display: none;
+        }
+
+        /* Responsive Navbar */
+        @media screen and (max-width: 768px) {
+            .navbar a:not(:first-child) {display: none;}
+            .navbar a.icon {
+                float: right;
+                display: block;
+                color: #fff;
+            }
+        }
+        @media screen and (max-width: 768px) {
+            .navbar.responsive {position: relative;}
+            .navbar.responsive a.icon {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+            .navbar.responsive a {
+                float: none;
+                display: block;
+                text-align: left;
+                border: none;
+            }
+            .navbar.responsive a:hover {
+                background-color: #3949ab;
+                color: #fff;
+            }
+        }
+
+        /* Sections */
+        .section {
+            padding: 60px 20px;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        #home {
+            background: linear-gradient(135deg, #3949ab, #1a237e);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+        #home h1 {
+            font-weight: 900;
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+        #home h2.rotate {
+            font-weight: 700;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        #home h3 {
+            font-weight: 400;
+            font-style: italic;
+            margin-bottom: 0.75rem;
+        }
+        #home p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+        }
+        #home .btn-default {
+            background-color: #ffca28;
+            border: none;
+            padding: 12px 30px;
+            font-weight: 700;
+            color: #1a237e;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        #home .btn-default:hover {
+            background-color: #f9a825;
+            color: #fff;
+        }
+
+        /* Work Section */
+        #work h2 {
+            color: #1a237e;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .media {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            transition: box-shadow 0.3s ease;
+        }
+        .media:hover {
+            box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+        }
+        .media-object {
+            font-size: 50px;
+            color: #3949ab;
+            float: left;
+            margin-right: 20px;
+        }
+        .media-body h3 {
+            margin-top: 0;
+            font-weight: 700;
+            color: #1a237e;
+        }
+        .media-body p {
+            color: #555;
+        }
+
+        /* About Section */
+        #about h2 {
+            color: #1a237e;
+            font-weight: 800;
+            margin-bottom: 30px;
+        }
+        #about h4 {
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+        #about p {
+            font-size: 1rem;
+            color: #444;
+            margin-bottom: 15px;
+        }
+        .services-list {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 40px;
+        }
+        .services-list div {
+            background: #fff;
+            padding: 20px;
+            width: 30%;
+            text-align: center;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        .services-list div:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+        }
+        .services-list h2 {
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #3949ab;
+        }
+        .services-list p, .services-list span {
+            font-size: 1.5rem;
+            color: #ffca28;
+        }
+
+        /* Portfolio Section */
+        #portfolio h2 {
+            color: #1a237e;
+            font-weight: 800;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+        .portfolio-thumb {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.1);
+            cursor: pointer;
+            margin-bottom: 30px;
+        }
+        .portfolio-thumb img {
+            width: 100%;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .portfolio-thumb:hover img {
+            transform: scale(1.1);
+        }
+        .portfolio-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(26, 35, 126, 0.85);
+            color: #fff;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        .portfolio-thumb:hover .portfolio-overlay {
+            opacity: 1;
+        }
+        .portfolio-overlay h4 {
+            margin-top: 0;
+            font-weight: 700;
+        }
+        .portfolio-overlay h5 {
+            font-weight: 400;
+            font-size: 0.9rem;
+            line-height: 1.3;
+        }
+
+        /* Contact Section */
+        #contact {
+            background-color: #1a237e;
+            color: #fff;
+            padding-bottom: 60px;
+        }
+        #contact .contact-title {
+            font-weight: 800;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #ffca28;
+        }
+        address p {
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        address i {
+            margin-right: 10px;
+            color: #ffca28;
+        }
+        form input, form textarea {
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        form input[type="submit"] {
+            background-color: #ffca28;
+            color: #1a237e;
+            font-weight: 700;
+            cursor: pointer;
+            text-transform: uppercase;
+            border-radius: 30px;
+            transition: background-color 0.3s ease;
+            border: none;
+        }
+        form input[type="submit"]:hover {
+            background-color: #f9a825;
+            color: #fff;
+        }
+
+        /* Social Icons */
+        ul.social-icon {
+            list-style: none;
+            padding: 0;
+            text-align: center;
+            margin-top: 30px;
+        }
+        ul.social-icon li {
+            display: inline-block;
+            margin: 0 10px;
+        }
+        ul.social-icon li a {
+            font-size: 24px;
+            color: #1a237e;
+            transition: color 0.3s ease;
+        }
+        ul.social-icon li a:hover {
+            color: #ffca28;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #f1f1f1;
+            padding: 20px 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: #666;
+            margin-top: 40px;
+        }
+        hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 15px 0 10px;
+        }
+    </style>
+
+</head>
+<body>
+
+<div class="navbar" id="myNavbar">
+    <a href="#" class="active">Home</a>
+    <a href="weather.html">Weather Forecasting</a>
+    <a href="crypto.html">Crypto Market</a>
+    <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+        <i class="fa fa-bars"></i>
+    </a>
 </div>
 
-<script src="script.js"></script>
+<script>
+    function toggleMenu() {
+        var x = document.getElementById("myNavbar");
+        if (x.className === "navbar") {
+            x.className += " responsive";
+        } else {
+            x.className = "navbar";
+        }
+    }
+</script>
 
-</body>
+<div id="fullpage">
 
-
-
-           
-
-	<div id="fullpage">
-
-		<!-- start home -->
-		<div id="home" class="section">
-                    
-			<div class="container">
-				<div class="row">
-					<div class="container"></div>
-					<div class="col-md-8 wow fadeIn" data-wow-delay="1s">
-						<h3>The First Person Come On Your Mind When Your Hear The Word "IT"</h3>
-						<h1>IlhamSyafiq</h1>
-						<h2 class="rotate">DESIGNER &AMP; DEVELOPER, PROGRAMMER &AMP;</h2>
-						<p>One Stop Central For IT Problem.</p>
-						<a href="#work" class="btn btn-default smoothScroll wow fadeInUp" data-wow-delay="1s">Get started</a>
-					</div>
-					<div class="col-md-2"></div>
-				</div>
-			</div>
-		</div>
-		<!-- end home -->
-
-		<!-- start work -->
-		<div id="work" class="section">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 wow bounce">
-						<h2>WHAT I DO</h2>
-					</div>
-                </div>  
-                
-                <div class="row">
-					<div class="col-md-4 col-xs-11 wow fadeInUp" data-wow-delay="0.6s">
-						<div class="media">
-							<div class="media-object media-left">
-								<i class="fa fa-laptop"></i>
-							</div>
-							<div class="media-body">
-								<h3 class="media-heading">WEB DESIGNER</h3>
-								<p>Designs and develops web interfaces for relational database systems. Develops the website and applications. Designs web pages including graphics, animation and functionality to maximise visual effectiveness and facilitate appropriate access. Presents design options to the client.</p>
-							</div>
-						</div>
-					</div>
-                    
-					<div class="col-md-4 col-xs-11 wow fadeInUp" data-wow-delay="0.6s">
-						<div class="media">
-							<div class="media-object media-left">
-								<i class="fa fa-link"></i>
-							</div>
-							<div class="media-body">
-								<h3 class="media-heading">WEB DEVELOPER</h3>
-								<p>Builds, designs, and maintains all websites and software applications. Regulates exposure to business stakeholders and executive management as well as other authorities. Designs, writes, and edits website content. Understands UI, cross-browser compatibility, and general web functions and standards.</p>
-							</div>
-						</div>
-					</div>
-                    
-					<div class="col-md-4 col-xs-11 wow fadeInUp" data-wow-delay="0.6s">
-						<div class="media">
-							<div class="media-object media-left">
-								<i class="fa fa-paper-plane"></i>
-							</div>
-							<div class="media-body">
-								<h3 class="media-heading">PROGRAMMER</h3>
-								<p>write code for computer programs and mobile application also involved in maintaining, debugging and troubleshooting systems and software to ensure that everything is running smoothly.</p>
-							</div>
-						</div>
-					</div>
-                    
-				</div>
-			</div>
-		</div>
-		<!-- end work -->
-
-		<!-- start about -->
-		<div id="about" class="section">
-			<div class="container">
-				<div class="row">
-					<div class="col-md-6 col-xs-11 wow fadeInLeft" data-wow-delay="0.9s">
-						<h2>ABOUT ME</h2>
-						<h4>Ilham Syafiq</h4>
-						<p>My name is Muhammad Ilham Syafiq Bin Omar Hashim. Currently i study at Unisza. I am 22 years old. When im older i want to be Programmer. I am graduate from Kolej Profesional Mara Indera Mahkota in Diploma Computer Networking</p>
-						<p>Why i venture into programmer because Programmers' earnings are higher than most other career fields. You will discover programming jobs tend to pay much more than other positions. In addition, programmers can work for a specific company, on a contract basis, or as freelancers working on multiple projects for several organizations</p>
-					</div>
-                            
-    <div class="container">
-        <h1 class="sub-title">My Skills</h1>
-        <div class="services-list">
-            <div>
-                <h2>Web Development</h2>
-                
-&#9733;&#9733;&#9733;&#9733;&#9733;
-
-
-
-                
-            </div>
-            <div>
-                <h2>Web Design</h2>
-                &#9733;&#9733;&#9733;&#9733;
-             
-            </div>
-            <div>
-                <h2>Machine Language</h2>
-                &#9733;&#9733;&#9733;&#9733;
-              
+    <!-- start home -->
+    <div id="home" class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1>ARIF BALI</h1>
+                    <h2 class="rotate">WEB DEVELOPER | UI/UX DESIGNER</h2>
+                    <h3>Welcome To My Personal Portfolio</h3>
+                    <p>I am a dedicated developer and designer committed to creating sleek and professional websites and applications.</p>
+                    <a href="#work" class="btn btn-default smoothScroll">View Work</a>
+                </div>
             </div>
         </div>
     </div>
-</div></div>
-		</div>
-		<!-- end about -->
+    <!-- end home -->
 
-		<!-- start portfolio -->
-		<div id="portfolio" class="section">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-12">
-					<h2 class="wow bounce">PORTFOLIO</h2>
-				</div>
-				<div class="col-md-4 col-xs-6 wow fadeIn" data-wow-delay="0.6s">
-					<div class="portfolio-thumb">
-<a href="../hangman.github.io/index.html">						<img src="images/hang.jpg" class="img-responsive" alt="portfolio img">
-							<div class="portfolio-overlay">
-								<h4>Hangman</h4>
-								<h5>Hangman is a popular word guessing game where the player attempts to build a missing word by guessing one letter at a time. After a certain number of incorrect guesses, the game ends and the player loses. The game also ends if the player correctly identifies all the letters of the missing word.</h5>
-<h5>This game build by using html,css and javascript<h5>
-<h5>Cick to play<h5>
+    <!-- start work -->
+    <div id="work" class="section">
+        <div class="container">
+            <h2>WORK</h2>
+            <div class="media">
+                <i class="fa fa-rocket media-object"></i>
+                <div class="media-body">
+                    <h3>Fast & Optimized</h3>
+                    <p>I focus on developing fast and performance-optimized websites.</p>
+                </div>
+            </div>
+            <div class="media">
+                <i class="fa fa-check-square media-object"></i>
+                <div class="media-body">
+                    <h3>Clean Code</h3>
+                    <p>My code is clean, easy to maintain, and well-documented.</p>
+                </div>
+            </div>
+            <div class="media">
+                <i class="fa fa-lightbulb-o media-object"></i>
+                <div class="media-body">
+                    <h3>Creative Designs</h3>
+                    <p>I deliver innovative and modern UI/UX designs.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end work -->
+
+    <!-- start about -->
+    <div id="about" class="section">
+        <div class="container">
+            <h2>ABOUT ME</h2>
+            <h4>Who Am I?</h4>
+            <p>I'm a passionate web developer with 5+ years experience in crafting beautiful and responsive websites.</p>
+            <p>Skilled in HTML, CSS, JavaScript, and modern frameworks.</p>
+
+            <div class="services-list">
+                <div>
+                    <h2>25</h2>
+                    <span class="fa fa-briefcase"></span>
+                    <p>Projects Completed</p>
+                </div>
+                <div>
+                    <h2>5+</h2>
+                    <span class="fa fa-clock-o"></span>
+                    <p>Years Experience</p>
+                </div>
+                <div>
+                    <h2>10</h2>
+                    <span class="fa fa-trophy"></span>
+                    <p>Awards Won</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end about -->
+
+ 
+
+    <!-- start contact -->
+    <div id="contact" class="section">
+        <div class="container">
+            <h2 class="contact-title">Contact Me</h2>
+            <address>
+                <p><i class="fa fa-map-marker"></i> University Sultan Zainal Abidin, Besut, Malaysia</p>
+                <p><i class="fa fa-phone"></i> +60 1117315912</p>
+                <p><i class="fa fa-envelope"></i> ilhamsyafiq8@gmail.com</p>
+            </address>
+
+            <form action="#" method="post">
+                <input type="text" name="name" placeholder="Muhammad Ilham Syafiq Bin Omar Hashim" required>
+                <input type="email" name="email" placeholder="ilhamsyafiq8@gmail.com" required>
+                <textarea name="message" rows="6" placeholder="Good luck In Your Future" required></textarea>
+                <input type="submit" value="Send Message">
+            </form>
+
+            <ul class="social-icon">
+                <li><a href="#" class="fa fa-facebook"></a></li>
+                <li><a href="#" class="fa fa-twitter"></a></li>
+                <li><a href="#" class="fa fa-linkedin"></a></li>
+                <li><a href="#" class="fa fa-github"></a></li>
+            </ul>
+        </div>
+    </div>
+    <!-- end contact -->
+
 </div>
-					</div>
-				</div>
-				<div class="col-md-4 col-xs-6 wow fadeIn" data-wow-delay="0.6s">
-					<div class="portfolio-thumb">
-<a href="https://ilhamsyafiq.github.io/flappy.github.io/index.html">						<img src="images/Flapp.jpg" class="img-responsive" alt="portfolio img">
-							<div class="portfolio-overlay">
-								<h4>Flappy Bird</h4>
-								<h5>Flappy Bird is a game where you hit up arrow to make the bird fly. This is a frustrating game to some people, as if you hit a pipe, your bird falls and you restart the game</h5>
-<h5>This game build by using html,css and javascript<h5>
-<h5>Cick to play<h5>
-							</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-xs-6 wow fadeIn" data-wow-delay="0.6s">
-					<div class="portfolio-thumb">
-<a href="../ttc.github.io/index.html">						<img src="images/ttc.jpg" class="img-responsive" alt="portfolio img">
-							<div class="portfolio-overlay">
-								<h4>Tic-Tac-Toe</h4>
-								<h5>The game is played on a grid that's 3 squares by 3 squares. Players take turns putting their marks in empty squares. The first player to get 3 of her marks in a row (up, down, across, or diagonally) is the winner.</h5>
-<h5>This game build by using html,css and javascript<h5>
-<h5>Cick to play<h5>
-							</div>
-					</div>
-				</div>
-				
-					</div>
-				</div>
-			</div>
-	<!-- end portfolio -->
 
-		<!-- start contact -->
-		<div id="contact" class="section">
-			<div class="container">
-				<div class="row">
-					<div class="col-lg-5 col-lg-offset-1 col-md-6 wow fadeInUp" data-wow-delay="0.6s">
-						<address>
-							<p class="contact-title">CONTACT ME</p>
-							<p><i class="fa fa-phone"></i> 011-1731 5912</p>
-							<p><i class="fa fa-envelope-o"></i> ilhamsyafiq8@gmail.com</p>
-							<p><i class="fa fa-map-marker"></i> Unisza Campus Besut 22200 Besut Terengganu</p>
-						</address>
-					</div>
-					<div class="col-lg-6 col-md-6 col-xs-10 wow fadeInUp" data-wow-delay="0.6s">
-						<form role="form" method="post" action="#">
-							<input name="name" type="text" class="form-control" id="name" placeholder="Your Name">
-							<input name="email" type="email" class="form-control" id="email" placeholder="Your Email">
-							<textarea name="message" rows="5" class="form-control" id="message" placeholder="Your Message"></textarea>
-							<input name="send" type="submit" class="form-control" id="send" value="SEND ME">
-						</form>
-					</div>
-					<div class="col-md-1 col-sm-1"></div>
-				</div>
-			</div>
-		</div>
-		
-                    <ul class="social-icon">
-							<li><a href="https://www.facebook.com/ilhamsyafiq.omarhashim" class="fa fa-facebook"></a></li>
-							<li><a href="https://twitter.com/ilhamsyafi72305" class="fa fa-twitter"></a></li>
-							<li><a href="https://www.instagram.com/fiq_uee/" class="fa fa-instagram"></a></li>
-						</ul>
-			<div class="container">
-				<div class="row">
-					<div class="col-md-12 wow fadeIn" data-wow-delay="0.9s">
-						<p>Copyright &copy; 2023 ilhamsyafiq
-                        
-                        . 
-						<hr>
-						
-					</div>
-				</div>
-			</div>
-		</footer>
-		
+<footer>
+    <p>© 2025 ARIF BALI. All rights reserved.</p>
+</footer>
 
-
-		<!-- jQuery -->
-		<script src="js/jquery.js"></script>
-		<!-- bootstrap -->
-		<script src="js/bootstrap.min.js"></script>
-		<!-- fullpage -->
-		<script src="js/jquery.fullPage.js"></script>
-		<!-- smoothScroll -->
-		<script src="js/smoothscroll.js"></script>
-		<!-- wow -->
-		<script src="js/wow.min.js"></script>
-		<!-- text rotater -->
-		<script src="js/jquery.simple-text-rotator.js"></script>
-		<!-- custom -->
-		<script src="js/custom.js"></script>
-                <script src="js/nav.js"></script>
-	</body>
+</body>
 </html>
