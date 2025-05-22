@@ -374,6 +374,12 @@
     max-width: 100%;
   }
 }
+        #about .media:hover {
+    box-shadow: 0 6px 25px rgba(0,0,0,0.15);
+    transform: translateY(-5px);
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
+}
+
 
     </style>
 
@@ -418,37 +424,55 @@
   </div>
 </div>
  <!-- About Me Section -->
+<!-- About Me Section -->
 <section id="about" class="section">
     <div class="container">
         <h2>About Me</h2>
-        <p>Hello! I’m a passionate developer who enjoys building dynamic, responsive websites and integrating APIs to enhance user experiences. My interests include front-end development, UI/UX design, and cloud-based web solutions.</p>
-        <h4>Skills & Technologies</h4>
-        <ul>
+        
+        <div class="media" style="background:#fff; padding:20px; border-radius:8px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); margin-bottom: 30px; transition: box-shadow 0.3s ease;">
+            <i class="fa fa-user media-object" style="font-size:50px; color:#3949ab; float:left; margin-right:20px;"></i>
+            <div class="media-body">
+                <p style="color:#555; font-size:1rem; margin-bottom:0;">
+                    Hello! I’m a passionate developer who loves building dynamic, responsive websites and integrating APIs to create seamless user experiences. My focus areas include front-end development, UI/UX design, and cloud web solutions.
+                </p>
+            </div>
+        </div>
+
+        <h4 style="color:#1a237e; font-weight:700; margin-bottom:15px;">Skills & Technologies</h4>
+
+        <ul style="color:#555; font-size:1rem; margin-bottom:30px; padding-left: 20px;">
             <li>HTML5, CSS3, JavaScript (ES6+)</li>
             <li>React, Bootstrap, Tailwind CSS</li>
             <li>RESTful APIs, GitHub, CI/CD pipelines</li>
             <li>Cloud Deployment (GitHub Pages, Netlify)</li>
         </ul>
+
         <div class="services-list">
-            <div>
-                <h2><i class="fa fa-code"></i></h2>
-                <span>Web Development</span>
-                <p>Clean and modern websites</p>
+            <div class="media" style="background:#fff; padding:20px; border-radius:8px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); margin-bottom: 30px; transition: box-shadow 0.3s ease; cursor: pointer;">
+                <i class="fa fa-code media-object"></i>
+                <div class="media-body">
+                    <h3 style="color:#1a237e; font-weight:700; margin-top:0;">Web Development</h3>
+                    <p style="color:#555;">Clean and modern websites</p>
+                </div>
             </div>
-            <div>
-                <h2><i class="fa fa-cloud"></i></h2>
-                <span>Cloud Integration</span>
-                <p>API integration & deployment</p>
+            <div class="media" style="background:#fff; padding:20px; border-radius:8px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); margin-bottom: 30px; transition: box-shadow 0.3s ease; cursor: pointer;">
+                <i class="fa fa-cloud media-object"></i>
+                <div class="media-body">
+                    <h3 style="color:#1a237e; font-weight:700; margin-top:0;">Cloud Integration</h3>
+                    <p style="color:#555;">API integration & deployment</p>
+                </div>
             </div>
-            <div>
-                <h2><i class="fa fa-lightbulb-o"></i></h2>
-                <span>Creative Design</span>
-                <p>UI/UX-focused approach</p>
+            <div class="media" style="background:#fff; padding:20px; border-radius:8px; box-shadow: 0 3px 15px rgba(0,0,0,0.1); margin-bottom: 30px; transition: box-shadow 0.3s ease; cursor: pointer;">
+                <i class="fa fa-lightbulb-o media-object"></i>
+                <div class="media-body">
+                    <h3 style="color:#1a237e; font-weight:700; margin-top:0;">Creative Design</h3>
+                    <p style="color:#555;">UI/UX-focused approach</p>
+                </div>
             </div>
         </div>
     </div>
 </section>
-</div>
+
          
     <!-- end home -->
 
