@@ -21,27 +21,44 @@
 
   <main class="container mx-auto mt-10 px-4 max-w-4xl">
     <h1 class="text-3xl font-bold mb-6 text-center">Cryptocurrency Market Insights</h1>
+
+    <div class="mb-4 flex justify-end">
+      <label for="currency" class="mr-2 font-semibold">Currency:</label>
+      <select id="currency" class="p-2 border rounded">
+        <option value="usd" selected>USD</option>
+        <option value="eur">EUR</option>
+        <option value="myr">MYR</option>
+        <option value="gbp">GBP</option>
+        <option value="jpy">JPY</option>
+      </select>
+    </div>
+
     <div class="bg-white p-6 rounded-lg shadow-lg">
       <canvas id="cryptoChart" class="w-full" style="height: 400px;"></canvas>
     </div>
   </main>
 
   <script>
-    async function fetchCrypto() {
+    let chart;
+
+    async function fetchCrypto(currency = 'usd') {
       try {
-        const res = await fetch('https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd');
+        const res = await fetch(`https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency}`);
         const data = await res.json();
 
         const labels = data.slice(0, 10).map(x => x.name);
         const prices = data.slice(0, 10).map(x => x.current_price);
 
         const ctx = document.getElementById('cryptoChart').getContext('2d');
-        new Chart(ctx, {
+
+        if (chart) chart.destroy(); // Destroy previous chart to avoid overlap
+
+        chart = new Chart(ctx, {
           type: 'bar',
           data: {
             labels,
             datasets: [{
-              label: 'Price (USD)',
+              label: `Price (${currency.toUpperCase()})`,
               data: prices,
               backgroundColor: 'rgba(16, 185, 129, 0.6)',
               borderColor: 'rgba(16, 185, 129, 1)',
@@ -63,7 +80,13 @@
       }
     }
 
+    // Initial fetch
     fetchCrypto();
+
+    // Update chart on currency change
+    document.getElementById('currency').addEventListener('change', (e) => {
+      fetchCrypto(e.target.value);
+    });
   </script>
   
 </body>
